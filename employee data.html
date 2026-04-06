@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Data Automation - Working Model</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md p-4 flex justify-between">
+  <h1 class="font-bold text-xl">Employee Automation</h1>
+</nav>
+
+<!-- Hero -->
+<section class="text-center py-10 bg-blue-600 text-white">
+  <h2 class="text-3xl font-bold">Working Model - ServiceNow Concepts</h2>
+</section>
+
+<!-- Upload Section (Import Set Simulation) -->
+<section class="p-6 max-w-5xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Import Employee Data (CSV Simulation)</h2>
+  <input type="file" id="fileInput" class="mb-4" />
+  <button onclick="loadSample()" class="bg-blue-600 text-white px-4 py-2 rounded">Load Sample Data</button>
+</section>
+
+<!-- Employee Table -->
+<section class="p-6 max-w-5xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Employee Records (sys_user)</h2>
+  <table class="w-full bg-white shadow rounded">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="p-2">Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Manager</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</section>
+
+<!-- Dot Walking Simulation -->
+<section class="p-6 max-w-5xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Dot Walking (Select Employee)</h2>
+  <select id="employeeSelect" class="p-2 border rounded"></select>
+  <div id="dotDetails" class="mt-4 p-4 bg-white shadow rounded"></div>
+</section>
+
+<!-- Dictionary Override -->
+<section class="p-6 max-w-5xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Dictionary Override (Priority)</h2>
+  <p>Default Task Priority: <b>4 - Low</b></p>
+  <p>Incident Priority (Overridden): <b class="text-blue-600">3 - Moderate</b></p>
+</section>
+
+<script>
+let employees = [];
+
+// Sample Data (Simulates Import Set + Transform Map)
+function loadSample() {
+  employees = [
+    {name: "Arun", email: "arun@mail.com", dept: "IT", manager: "Raj"},
+    {name: "Priya", email: "priya@mail.com", dept: "HR", manager: "Meena"},
+    {name: "Karthik", email: "karthik@mail.com", dept: "Finance", manager: "Suresh"}
+  ];
+  renderTable();
+  populateDropdown();
+}
+
+// Render Table
+function renderTable() {
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+
+  employees.forEach(emp => {
+    tbody.innerHTML += `
+      <tr class="text-center border-t">
+        <td class="p-2">${emp.name}</td>
+        <td>${emp.email}</td>
+        <td>${emp.dept}</td>
+        <td>${emp.manager}</td>
+      </tr>`;
+  });
+}
+
+// Dropdown for Dot Walking
+function populateDropdown() {
+  const select = document.getElementById("employeeSelect");
+  select.innerHTML = "";
+
+  employees.forEach((emp, i) => {
+    select.innerHTML += `<option value="${i}">${emp.name}</option>`;
+  });
+
+  showDotWalking();
+}
+
+// Dot Walking Simulation
+function showDotWalking() {
+  const index = document.getElementById("employeeSelect").value;
+  const emp = employees[index];
+
+  document.getElementById("dotDetails").innerHTML = `
+    <p><b>Email:</b> ${emp.email}</p>
+    <p><b>Department:</b> ${emp.dept}</p>
+    <p><b>Manager:</b> ${emp.manager}</p>
+  `;
+}
+
+document.getElementById("employeeSelect").addEventListener("change", showDotWalking);
+</script>
+
+</body>
+</html>
